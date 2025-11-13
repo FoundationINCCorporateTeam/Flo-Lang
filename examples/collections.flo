@@ -1,0 +1,23 @@
+# Lists and dictionaries in Flo
+
+# Lists
+numbers = [1, 2, 3, 4, 5]
+print("Numbers:", numbers)
+print("First number:", numbers[0])
+print("Length:", len(numbers))
+
+# Dictionaries
+person = {
+    name: "Alice",
+    age: 30,
+    city: "New York"
+}
+
+print("Person:", person)
+print("Name:", person["name"])
+
+# Iteration
+print("Iterating over list:")
+for num numbers {
+    print(num)
+}

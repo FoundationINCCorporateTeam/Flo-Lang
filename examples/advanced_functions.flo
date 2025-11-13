@@ -1,0 +1,42 @@
+# Advanced functions in Flo
+# Demonstrates higher-order functions and closures
+
+# Higher-order function that returns a function
+func makeMultiplier(factor) {
+    # Returns a function that multiplies by factor
+    multiplier = (x) => x * factor
+    return multiplier
+}
+
+# Create specific multiplier functions
+double = makeMultiplier(2)
+triple = makeMultiplier(3)
+quadruple = makeMultiplier(4)
+
+print("Using higher-order functions:")
+print("double(5) =", double(5))
+print("triple(5) =", triple(5))
+print("quadruple(5) =", quadruple(5))
+
+# Function that takes a function as parameter
+func applyTwice(f, x) {
+    return f(f(x))
+}
+
+func increment(x) => x + 1
+func square(x) => x * x
+
+print("\nApplying functions twice:")
+print("increment applied twice to 5:", applyTwice(increment, 5))
+print("square applied twice to 2:", applyTwice(square, 2))
+
+# Function composition
+func compose(f, g) {
+    composed = (x) => f(g(x))
+    return composed
+}
+
+# Compose square and increment
+squareThenIncrement = compose(increment, square)
+print("\nFunction composition:")
+print("(square then increment)(3) =", squareThenIncrement(3))

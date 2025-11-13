@@ -1,0 +1,6 @@
+#!/bin/bash
+# Flo CLI wrapper script
+# This allows running: ./flo run myprogram.flo
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+python3 "$SCRIPT_DIR/src/flo_cli.py" "$@"
