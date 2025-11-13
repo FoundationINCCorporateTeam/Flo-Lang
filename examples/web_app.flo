@@ -1,0 +1,178 @@
+# Complete Web Application Example in Flo
+# This demonstrates Flo's backend-focused design
+# (Conceptual example showing intended syntax)
+
+# Mock database and utilities for demonstration
+db = {
+    users: [
+        {id: 1, name: "Alice", password: "hash1", email: "alice@example.com"},
+        {id: 2, name: "Bob", password: "hash2", email: "bob@example.com"}
+    ]
+}
+
+# Helper functions
+func findUserByName(username) {
+    for user db["users"] {
+        if user["name"] == username => return user
+    }
+    return null
+}
+
+func findUserById(userId) {
+    for user db["users"] {
+        if user["id"] == userId => return user
+    }
+    return null
+}
+
+func verifyPassword(password, hash) {
+    # Simplified password verification
+    return password == hash
+}
+
+func createToken(userId) {
+    # Simplified JWT creation
+    return "token_" + str(userId)
+}
+
+func decodeToken(token) {
+    # Simplified token decoding
+    if len(token) > 6 {
+        idStr = token[6]
+        return int(idStr)
+    }
+    return null
+}
+
+# Route handlers (showing intended API structure)
+func handleHello() {
+    return "Hello, Flo!"
+}
+
+func handleGetUser(id) {
+    user = findUserById(id)
+    if user {
+        # Return user without password
+        return {
+            id: user["id"],
+            name: user["name"],
+            email: user["email"]
+        }
+    }
+    return null
+}
+
+func handleLogin(username, password) {
+    user = findUserByName(username)
+    
+    if user {
+        if verifyPassword(password, user["password"]) {
+            token = createToken(user["id"])
+            return {
+                success: true,
+                token: token,
+                user: {
+                    id: user["id"],
+                    name: user["name"]
+                }
+            }
+        }
+    }
+    
+    return {
+        success: false,
+        error: "Invalid credentials"
+    }
+}
+
+func handleGetData(token) {
+    userId = decodeToken(token)
+    
+    if userId {
+        user = findUserById(userId)
+        if user {
+            return {
+                success: true,
+                data: {
+                    id: user["id"],
+                    name: user["name"],
+                    email: user["email"]
+                }
+            }
+        }
+    }
+    
+    return {
+        success: false,
+        error: "Unauthorized"
+    }
+}
+
+# Demo the application
+print("=== Flo Web Application Demo ===\n")
+
+# Test hello endpoint
+print("GET /hello")
+response = handleHello()
+print("Response:", response)
+print()
+
+# Test get user endpoint
+print("GET /user/1")
+response = handleGetUser(1)
+print("Response:", response)
+print()
+
+# Test login endpoint
+print("POST /login (username: Alice, password: hash1)")
+response = handleLogin("Alice", "hash1")
+print("Response:", response)
+token = response["token"]
+print()
+
+# Test authenticated data endpoint
+print("POST /data (with token)")
+response = handleGetData(token)
+print("Response:", response)
+print()
+
+# Test with invalid credentials
+print("POST /login (invalid credentials)")
+response = handleLogin("Alice", "wrongpassword")
+print("Response:", response)
+print()
+
+print("=== Demo Complete ===\n")
+
+# In production with full Flo HTTP support, routes would be defined as:
+#
+# @env
+#     db = sql.connect("postgresql://localhost/floex")
+#     users = db.table("users")
+#
+# @app
+#     @route "/hello"
+#     get = => "Hello, Flo!"
+#
+#     @route "/user/:id"
+#     get = (id) =>
+#         user = users.find(id)
+#         user ? user : 404
+#
+#     @route "/login"
+#     post = (username, password) =>
+#         user = users.findBy("name", username)
+#         if !user or !hash.verify(password, user.password) =>
+#             "forbidden"
+#         token = jwt.encode({id:user.id})
+#         {token}
+#
+#     @route "/data"
+#     post = (token) =>
+#         uid = jwt.decode(token)?.id
+#         if !uid => 403
+#         udata = users.find(uid)
+#         udata
+#
+# @main =>
+#     app.listen(5000)

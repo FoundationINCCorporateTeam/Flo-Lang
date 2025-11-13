@@ -1,0 +1,70 @@
+# Simple REST API example in Flo
+# This demonstrates the backend-focused features of Flo
+
+# Note: This is a conceptual example showing Flo's intended syntax
+# Full HTTP server support is planned for future releases
+
+# Mock data
+users = [
+    {id: 1, name: "Alice", email: "alice@example.com"},
+    {id: 2, name: "Bob", email: "bob@example.com"},
+    {id: 3, name: "Charlie", email: "charlie@example.com"}
+]
+
+# Helper function to find user by ID
+func findUser(userId) {
+    for user users {
+        if user["id"] == userId => return user
+    }
+    return null
+}
+
+# Route handlers (conceptual - full HTTP support coming soon)
+func handleGetUsers() {
+    return users
+}
+
+func handleGetUser(userId) {
+    user = findUser(userId)
+    if user => return user
+    else => return null
+}
+
+func handleCreateUser(name, email) {
+    newId = len(users) + 1
+    newUser = {id: newId, name: name, email: email}
+    return newUser
+}
+
+# Demonstrate the API functions
+print("=== Flo REST API Demo ===")
+print("\nAll users:")
+allUsers = handleGetUsers()
+for user allUsers {
+    print("  -", user["name"], "(" + user["email"] + ")")
+}
+
+print("\nGet user by ID (2):")
+user = handleGetUser(2)
+if user {
+    print("  Found:", user["name"])
+}
+
+print("\nCreate new user:")
+newUser = handleCreateUser("Diana", "diana@example.com")
+print("  Created:", newUser["name"], "with ID", newUser["id"])
+
+# In production with full HTTP support, this would look like:
+# 
+# @app
+#     @route "/users"
+#     get = => handleGetUsers()
+# 
+#     @route "/users/:id"
+#     get = (id) => handleGetUser(int(id))
+# 
+#     @route "/users"
+#     post = (name, email) => handleCreateUser(name, email)
+# 
+# @main =>
+#     app.listen(5000)

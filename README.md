@@ -245,7 +245,19 @@ Check out the `examples/` directory for sample programs:
 - `hello.flo` - Hello World
 - `basics.flo` - Basic syntax demonstration
 - `collections.flo` - Lists and dictionaries
-- More coming soon!
+- `fibonacci.flo` - Recursive and iterative implementations
+- `advanced_functions.flo` - Higher-order functions and closures
+- `rest_api.flo` - REST API demonstration
+- `web_app.flo` - Complete web application example
+
+## Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- [Getting Started Guide](docs/GETTING_STARTED.md) - Learn Flo basics
+- [Language Reference](docs/LANGUAGE_REFERENCE.md) - Complete syntax reference
+- [Standard Library](docs/STDLIB.md) - Built-in modules and functions
+- [Contributing Guide](CONTRIBUTING.md) - How to contribute
 
 ## Language Philosophy
 
