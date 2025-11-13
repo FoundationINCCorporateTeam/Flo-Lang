@@ -1,0 +1,4 @@
+# Hello World in Flo
+# The simplest Flo program
+
+print("Hello, Flo!")

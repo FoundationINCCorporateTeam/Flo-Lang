@@ -1,0 +1,66 @@
+# Performance benchmark for Flo
+# Tests various language features
+
+print("=== Flo Performance Benchmark ===\n")
+
+# Test 1: Arithmetic operations
+print("Test 1: Arithmetic (10000 iterations)")
+sum = 0
+i = 0
+while i < 10000 {
+    sum = sum + i
+    i = i + 1
+}
+print("  Sum:", sum)
+
+# Test 2: Function calls
+print("\nTest 2: Function calls (1000 iterations)")
+func fibonacci(n) {
+    if n <= 1 => return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+count = 0
+for i range(0, 10) {
+    result = fibonacci(i)
+    count = count + 1
+}
+print("  Completed:", count, "calls")
+
+# Test 3: List operations
+print("\nTest 3: List operations")
+numbers = []
+for i range(0, 100) {
+    numbers = [1, 2, 3, 4, 5]
+}
+print("  List length:", len(numbers))
+
+# Test 4: Dictionary operations
+print("\nTest 4: Dictionary operations")
+data = {
+    name: "Test",
+    value: 42,
+    active: true
+}
+count = 0
+for i range(0, 100) {
+    value = data["name"]
+    count = count + 1
+}
+print("  Accessed", count, "times")
+
+# Test 5: Higher-order functions
+print("\nTest 5: Higher-order functions")
+func makeAdder(n) {
+    adder = (x) => x + n
+    return adder
+}
+
+add5 = makeAdder(5)
+result = 0
+for i range(0, 100) {
+    result = add5(i)
+}
+print("  Final result:", result)
+
+print("\n=== Benchmark Complete ===")
